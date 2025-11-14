@@ -39,8 +39,24 @@ def display_search(result):
 #   - Increment the checkouts counter
 # If it is not available:
 #   - Print a message saying it's already checked out
-
-
+def book_checkout(book_id):
+    for book in library_books:
+        if book["id"]==book_id:
+            if book["available"]:
+                book["available"]=False
+                #Making it unavailable
+                due_date=datetime.now()+timedelta(days=14)
+                book["due_date"]=due_date.strftime("%Y-%m-%d")
+                #Set due date to 2 weeks from today
+                book["checkouts"]+=1
+                #Checkout Counter
+                print(f"Sucessfully checked out'{book['title']}'.Due date: {book['due_date']}")
+                return True
+            else:
+                print(f"Sorry,'{book['title']}' is already checked out.")
+                return False
+    print(f"Book with ID '{book_id}' not found")
+    return False
 # -------- Level 4 --------
 # TODO: Create a function to return a book by ID
 # Set its availability to True and clear the due_date
