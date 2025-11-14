@@ -4,14 +4,33 @@ from datetime import datetime, timedelta
 # -------- Level 1 --------
 # TODO: Create a function to view all books that are currently available
 # Output should include book ID, title, and author
-
-
+def available_books_veiw():
+    #Displays a list of all the available books with their details
+    print("==- All Available Books -==")
+    for book in library_books:
+        if book["available"]:
+            print(f"ID:{book['id']},Title:{book['title']},Author:{book['author']}")
+#Prints out all the books that are marked as available
 # -------- Level 2 --------
 # TODO: Create a function to search books by author OR genre
 # Search should be case-insensitive
-# Return a list of matching books
-
-
+def book_search(search):
+    search=search.lower()
+    result=[]
+    for book in library_books:
+        if(search in book["author"].lower() or search in book["genre"].lower()):
+            result.append(book)
+    return result
+#looks through the dictionary for the keyword in author or genre by lower casing it.
+def display_search(result):
+    if not result:
+        print("No books found matching your search.")
+        return
+    
+    print(f"Search Results({len(result)}books found)")
+    for book in result:
+        status=" Availble" if book["available"] else " Checked Out"
+        print(f"ID: {book['id']}, Title: {book['title']},Author: {book['author']},Status:{status}")
 # -------- Level 3 --------
 # TODO: Create a function to checkout a book by ID
 # If the book is available:
@@ -44,4 +63,3 @@ from datetime import datetime, timedelta
 
 if __name__ == "__main__":
     # You can use this space to test your functions
-    pass
