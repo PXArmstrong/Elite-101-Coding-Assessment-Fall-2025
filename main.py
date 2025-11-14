@@ -60,9 +60,39 @@ def book_checkout(book_id):
 # -------- Level 4 --------
 # TODO: Create a function to return a book by ID
 # Set its availability to True and clear the due_date
+def book_return(book_id):
+    for book in library_books:
+        if book["id"]==book_id:
+            if not book["available"]:
+                book["availbale"]=True
+                book["due_date"]=None
+                print(f"Sucessfully returned '{book['title']}'.")
+                return True
+            else:
+                print(f"book with ID'{book['title']}' not found.")
+                return False
+    print(f"Book with Id '{book_id}' not found")
+    return False    
 
 # TODO: Create a function to list all overdue books
 # A book is overdue if its due_date is before today AND it is still checked out
+def books_overdue():
+    today=datetime.now().date()
+    overdue_books= []
+
+    for book in library_books:
+        if not book["available"] and book["due_date"]:
+            due_date=datetime.strptime(book["due_date"],"%Y-%m-%d").date()
+            if due_date<today:
+                overdue_books.append(book)
+    
+    if not overdue_books:
+        print("No overdue books found.")
+        return
+    
+    print("OVERDUE BOOKS")
+    for book in overdue_books:
+        print(f"ID: {book['id']}, Title: {book['title']}, Due Date: {book['due_date']}")
 
 
 # -------- Level 5 --------
@@ -79,3 +109,14 @@ def book_checkout(book_id):
 
 if __name__ == "__main__":
     # You can use this space to test your functions
+    available_books_veiw()
+    print("  ")
+    result=book_search("Fantasy")
+    display_search(result)
+    print(" ")
+    result=book_search("Rick")
+    display_search(result)
+    print(" ")
+    book_checkout("B1")
+    print(" ")
+    books_overdue()
